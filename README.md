@@ -36,7 +36,7 @@ This leads to a scenario where the production of messages is faster than their c
 
 - However, by adding a second consumer, you'll observe that consumption now matches the production rate. 
 
-- Pay attention to the `prefetch_count` set to 1. The prefetch_count setting is used to control how many unacknowledged messages a consumer can have at a time. This means that when a consumer is still processing a message, the next message is assigned to an available consumer.
+- Pay attention to the `prefetch_count` set to 1. The `prefetch_count` setting is used to control how many unacknowledged messages a consumer can have at a time. This means that when a consumer is still processing a message, the next message is assigned to an available consumer.
 
 - If you omit setting the `prefetch_count`, the default round-robin algorithm distributes messages. Running 2 consumers without specifying the `prefetch_count` will result in one consumer processing messages with even message IDs, while the other handles odd message IDs.
 
