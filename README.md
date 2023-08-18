@@ -40,3 +40,24 @@ This leads to a scenario where the production of messages is faster than their c
 
 - If you omit setting the `prefetch_count`, the default round-robin algorithm distributes messages. Running 2 consumers without specifying the `prefetch_count` will result in one consumer processing messages with even message IDs, while the other handles odd message IDs.
 
+## Pub-Sub
+
+Implementing the pub-sub messaging pattern.
+
+### Producer Setup
+
+For this setup, producers publish messages to a specific exchange without knowledge of queues.
+
+### Consumer1 - Subscribing to the Exchange
+
+Consumer1 binds the same exchange to its channel. Here, you don't need to specify a queue name. The server generates a queue name automatically. This queue is exclusive, and the server can close it when unused.
+
+### Consumer2 - Not Binding to the Exchange
+
+Consumer2 deliberately avoids binding the exchange to its channel.
+
+### Running the Scenario
+
+With both consumers and the publisher running, you'll notice that only Consumer1 receives messages. This outcome is because Consumer1 is the only consumer bound to the exchange.
+
+This Publisher-Subscriber setup demonstrates RabbitMQ's flexibility in managing message routing, allowing consumers to subscribe to relevant exchanges without the producer needing to know the specifics of consumer queues. The messages can now be delivered to multiple consumers via different queues.
