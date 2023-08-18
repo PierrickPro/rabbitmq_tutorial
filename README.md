@@ -42,32 +42,29 @@ This leads to a scenario where the production of messages is faster than their c
 
 ## Pub-Sub
 
-Implementing the pub-sub messaging pattern with a fanout exchange.
-
 - For this setup, the producer publishes messages to a fanout exchange without knowledge of queues.
 
 
-- Consumer1 binds the same exchange to its channel
-  - You don't need to specify a queue name
-  - The server generates a queue name automatically
-  - This queue is exclusive, and the server can close it when unused
+- Consumers:
+  - bind the fanout exchange to its channel
+  - You don't need to specify a queue name, the server generates a queue name automatically
+  - This queue is exclusive, so the server can close it when unused
+  - Consumer2 deliberately avoids binding the exchange to its channel
 
 
-- Consumer2 deliberately avoids binding the exchange to its channel
+- Only consumer1 receives a message when the producer is executed. This outcome is because consumer1 is the only consumer bound to the exchange.
 
 
-- With both consumers running, you'll notice that only consumer1 receives a message when the producer is executed. This outcome is because consumer1 is the only consumer bound to the exchange.
-
-
-- This Publisher-Subscriber setup demonstrates RabbitMQ's flexibility in managing message routing, allowing consumers to subscribe to relevant exchanges without the producer needing to know the specifics of consumer queues. The messages can now be delivered to multiple consumers via different queues.
+- This Publisher-Subscriber setup allows consumers to subscribe to relevant exchanges without the producer needing to know the specifics of consumer queues. The messages can now be delivered to multiple consumers via different queues.
 
 ## Routing
 
+Implementing routing with a direct and topic exchange.
+
 ### Direct Exchange
 
-Implementing routing with a direct exchange.
+- Producers publish messages to a direct exchange and with a designated routing key
 
-- Producers publish messages to a direct exchange using a designated routing key
 
 - Consumers:
     - Similar to the publish-subscribe model, consumers bind their channels to the exchange
