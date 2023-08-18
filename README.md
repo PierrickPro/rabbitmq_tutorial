@@ -69,10 +69,10 @@ Implementing routing with a direct exchange.
 
 - Producers publish messages to a direct exchange using a designated routing key
 
-
-- Similar to the publish-subscribe model, consumers bind their channels to the exchange
-- Each consumer specifies a different routing_key: payments_only and analytics_only
-- Both consumers have the both_consumers routing key
+- Consumers:
+    - Similar to the publish-subscribe model, consumers bind their channels to the exchange
+    - Each consumer specifies a different routing_key: payments_only and analytics_only
+    - Both consumers have the both_consumers routing key
 
 
 - When both consumers are active, only those with matching routing keys will receive the messages
