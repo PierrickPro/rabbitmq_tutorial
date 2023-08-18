@@ -10,7 +10,7 @@ channel.queue_declare(queue='letterbox')
 message_id = 1
 
 while True:
-    message = f"Sending message_id: {message_id}"
+    message = f'Sending message_id: {message_id}'
     channel.basic_publish(exchange='', routing_key='letterbox', body=message)
     print(f"sent message: {message}")
     time.sleep(random.randint(1, 4))

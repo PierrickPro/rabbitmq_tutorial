@@ -2,13 +2,15 @@ import pika
 from pika.exchange_type import ExchangeType
 
 connection_parameters = pika.ConnectionParameters('localhost')
-connection = pika.BlockingConnection(connection_parameters)
-channel = connection.channel()
 
-message = 'Hello I want to broadcast this message'
-channel.exchange_declare(exchange='pubsub', exchange_type=ExchangeType.fanout)
-# publish to fanout exchange
-channel.basic_publish(exchange='pubsub', routing_key='', body=message)
+connection = pika.BlockingConnection(connection_parameters)
+
+channel = connection.channel()
+channel.exchange_declare(exchange='routing', exchange_type=ExchangeType.direct)
+
+message = 'This message needs to be routed'
+channel.basic_publish(exchange='routing', routing_key='both', body=message)
 
 print(f"sent message: {message}")
+
 connection.close()
