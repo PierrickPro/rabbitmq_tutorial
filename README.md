@@ -75,7 +75,7 @@ Implementing routing with a direct exchange.
     - Both consumers have the both_consumers routing key
 
 
-- When both consumers are active, only those with matching routing keys will receive the messages
+- Only the consumers with a matching routing key will receive the messages sent by the producer
 
 ### Topic Exchange
 
