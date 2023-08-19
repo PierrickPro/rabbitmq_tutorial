@@ -59,10 +59,6 @@ This leads to a scenario where the production of messages is faster than their c
 
 ## Routing
 
-Implementing routing with a direct and topic exchange.
-
-### Direct Exchange
-
 - Producers publish messages to a direct exchange and with a designated routing key
 
 
@@ -74,7 +70,7 @@ Implementing routing with a direct and topic exchange.
 
 - Only the consumers with a matching routing key will receive the messages sent by the producer
 
-### Topic Exchange
+## Topics
 
 Topics enable more flexible routing using topic-based routing keys
 
@@ -94,4 +90,18 @@ Here are some scenarios:
   - **_routing_key='user.europe.payments'_**  &rarr; all 3 consumers will receive the message
   - **_routing_key='business.europe.order'_**  &rarr; only consumer2 will receive the message
 
+## Request Response Pattern
+
+The Request response patterns allows two applications to have a two-way conversation with one another.
+This is common in client-server architecture.
+
+- Client:
+  - publishes messages to a request queue
+  - properties containing the name of the reply queue and correlation_id are passed with the message
+  - consumes response from the reply_queue
+
+- Server:
+  - consumes messages from the request queue
+  - extract reply_queue name and correlation_id from the properties in the message
+  - publishes response message in the reply_queue
 
