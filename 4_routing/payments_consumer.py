@@ -1,8 +1,10 @@
 import pika
 from pika.exchange_type import ExchangeType
 
+
 def on_message_received(ch, method, properties, body):
     print(f"Payments Service - received new message: {body}")
+
 
 connection_parameters = pika.ConnectionParameters('localhost')
 connection = pika.BlockingConnection(connection_parameters)

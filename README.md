@@ -105,3 +105,42 @@ This is common in client-server architecture.
   - extract reply_queue name and correlation_id from the properties in the message
   - publishes response message in the reply_queue
 
+## Exchange-Exchange
+
+A message can go through multiple exchanges.
+
+- Producer:
+  - declare exchanges
+  - bind the exchanges together
+  - publish to the first exchange
+
+- Consumer:
+  - declare last exchange
+  - declare a queue
+  - bind the queue to the last exchange
+  - consume from the queue
+
+The message will now go through the two exchanges.
+
+## Headers Exchange
+
+A header exchange can also be used.
+
+- Producer:
+  - declare headers_exchange of type headers
+  - add headers in the properties when publishing the message
+
+
+- Consumer:
+  - declare headers_exchange
+  - declare a queue
+  - bind the queue to the headers_exchange and set arguments
+  - consume from the queue
+
+We can now leverage the power of arguments to route messages.
+
+- Binding Arguments:
+  - 'x-match': 'any' &rarr; any argument can match
+  - 'x-match': 'all' &rarr; all arguments need to match
+
+

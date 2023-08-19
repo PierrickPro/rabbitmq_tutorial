@@ -1,10 +1,12 @@
 import pika
 
+
 def on_request_message_received(ch, method, properties, body):
     print(f"Request received: {properties.correlation_id}")
     # publish reply in reply queue using properties inside the message received
     ch.basic_publish('', routing_key=properties.reply_to,
                      body=f'Hey its your reply to {properties.correlation_id}')
+
 
 connection_parameters = pika.ConnectionParameters('localhost')
 connection = pika.BlockingConnection(connection_parameters)
