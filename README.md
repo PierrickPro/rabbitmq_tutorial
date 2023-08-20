@@ -124,7 +124,8 @@ The message will now go through the two exchanges.
 
 ## Headers Exchange
 
-A header exchange can also be used.
+A header exchange can also be used. 
+A header exchange is a routing system that uses arguments with headers and optional values to route messages.
 
 - Producer:
   - declare headers_exchange of type headers
@@ -142,5 +143,31 @@ We can now leverage the power of arguments to route messages.
 - Binding Arguments:
   - 'x-match': 'any' &rarr; any argument can match
   - 'x-match': 'all' &rarr; all arguments need to match
+
+## Alternate Exchange
+
+An alternate exchange can be used to route all messages that can't be delivered through the main exchange.
+
+- Producer:
+  - declare the alternate exchange
+  - declare the main exchange, with the alternate exchange name in the arguments
+  - publish the message with a routing key
+
+
+- Consumer:
+  - Alternative:
+    - declare alternative queue
+    - declare alternative exchange
+    - bind queue to the exchange
+    - consume from the queue, with on_message_callback=alt_queue_on_message_received
+  - Main:
+    - declare main queue
+    - declare main exchange
+    - bind queue to the exchange with a routing_key
+    - consume from the queue, with on_message_callback=main_queue_on_message_received
+
+Run the consumer and the producer.
+If the routing key of the main consumer matches they producer's key, the message is delivered in the main queue.
+If there is no match, the message is delivered in the alternate queue.
 
 
