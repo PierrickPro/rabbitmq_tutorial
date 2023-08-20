@@ -198,6 +198,6 @@ on_message_received: from the callback, we can have more control on accepting/re
 - ch.basic_ack: send ack when the message is received 
 - ch.basic_nack: send nack when the message is received
 - requeue flag: put back nacked messages in the queue
-- multiple flag: reject all unacknowledged, delivered messages up to and including the message specified 
+- multiple flag: reject/accept all unacknowledged, delivered messages up to and including the message specified 
 
 Unacked messages can be tracked with the RabbitMQ web app in "Queues" tab.
