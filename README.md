@@ -100,6 +100,7 @@ This is common in client-server architecture.
   - properties containing the name of the reply queue and correlation_id are passed with the message
   - consumes response from the reply_queue
 
+
 - Server:
   - consumes messages from the request queue
   - extract reply_queue name and correlation_id from the properties in the message
@@ -113,6 +114,7 @@ A message can go through multiple exchanges.
   - declare exchanges
   - bind the exchanges together
   - publish to the first exchange
+
 
 - Consumer:
   - declare last exchange
@@ -154,20 +156,40 @@ An alternate exchange can be used to route all messages that can't be delivered 
   - publish the message with a routing key
 
 
-- Consumer:
-  - Alternative:
-    - declare alternative queue
-    - declare alternative exchange
-    - bind queue to the exchange
-    - consume from the queue, with on_message_callback=alt_queue_on_message_received
-  - Main:
-    - declare main queue
-    - declare main exchange
-    - bind queue to the exchange with a routing_key
-    - consume from the queue, with on_message_callback=main_queue_on_message_received
+- Alternative Consumer:
+  - declare alternative queue
+  - declare alternative exchange
+  - bind queue to the exchange
+  - consume from the queue, with on_message_callback=alt_queue_on_message_received
+
+- Main Consumer:
+  - declare main queue
+  - declare main exchange
+  - bind queue to the exchange with a routing_key
+  - consume from the queue, with on_message_callback=main_queue_on_message_received
 
 Run the consumer and the producer.
 If the routing key of the main consumer matches they producer's key, the message is delivered in the main queue.
 If there is no match, the message is delivered in the alternate queue.
 
+## Dead Letter Exchange
 
+The dead letter exchange (DLX) can be used to capture messages that are not deliverable by a queue.
+
+- Producer:
+  - declare main exchange
+  - publish the message
+
+
+- Consumer
+  - Declare main exchange
+  - declare main queue with the following arguments:
+    - x-dead-letter-exchange': 'dlx'
+    - 'x-message-ttl': 1000
+  - bind the queue to the exchange
+  - consume from the dlx queue, with on_message_callback=dlx_queue_on_message_received
+
+Run the consumer and the producer.
+Since there is no consumption on the main queue, all the messages expire after 1 second (set by x-message-ttl).
+The messages are then moved to the DLX queue.
+If you add a consumer to the main queue, the messages won't be sent to the DLX queue anymore.
