@@ -176,12 +176,7 @@ If there is no match, the message is delivered in the alternate queue.
 
 The dead letter exchange (DLX) can be used to capture messages that are not deliverable by a queue.
 
-- Producer:
-  - declare main exchange
-  - publish the message
-
-
-- Consumer
+- Consumer:
   - Declare main exchange
   - declare main queue with the following arguments:
     - x-dead-letter-exchange': 'dlx'
@@ -193,3 +188,16 @@ Run the consumer and the producer.
 Since there is no consumption on the main queue, all the messages expire after 1 second (set by x-message-ttl).
 The messages are then moved to the DLX queue.
 If you add a consumer to the main queue, the messages won't be sent to the DLX queue anymore.
+
+## Accept Reject Exchange
+
+- Producer: the producer sends a message every time a key is pressed
+- Consumer: do not enable auto_ack
+
+on_message_received: from the callback, we can have more control on accepting/rejecting messages
+- ch.basic_ack: send ack when the message is received 
+- ch.basic_nack: send nack when the message is received
+- requeue flag: put back nacked messages in the queue
+- multiple flag: reject all unacknowledged, delivered messages up to and including the message specified 
+
+Unacked messages can be tracked with the RabbitMQ web app in "Queues" tab.
